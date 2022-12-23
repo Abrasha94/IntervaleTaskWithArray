@@ -1,0 +1,54 @@
+package ru.intervale.intervaletaskwitharray;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.options.Options;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
+
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+@State(Scope.Benchmark)
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+public class BenchmarkTest {
+
+    private final IntervaleTask task = new IntervaleTask();
+
+    final int[] args = IntStream.range(0, 1000000).toArray();
+
+    @Benchmark
+    public void calculateWithCycle() {
+        task.calculateWithCycle(args);
+    }
+
+    @Benchmark
+    public void calculateWithOneStream() {
+        task.calculateWithOneStream(args);
+    }
+
+    @Benchmark
+    public void calculateWithTwoStream() {
+        task.calculateWithTwoStreams(args);
+    }
+
+    @Test
+    public void runBenchmarks() throws Exception {
+        Options opts = new OptionsBuilder()
+                .include("\\." + this.getClass().getSimpleName() + "\\.")
+                .warmupIterations(3)
+                .measurementIterations(3)
+                .forks(0)
+                .threads(1)
+                .shouldDoGC(true)
+                .shouldFailOnError(true)
+                .jvmArgs("-server")
+                .build();
+
+        new Runner(opts).run();
+    }
+}
