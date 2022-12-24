@@ -1,6 +1,5 @@
 package ru.intervale.intervaletaskwitharray;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
@@ -8,9 +7,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
@@ -19,7 +16,7 @@ public class BenchmarkTest {
 
     private final IntervaleTask task = new IntervaleTask();
 
-    final int[] args = IntStream.range(0, 1000000).toArray();
+    final int[] args = IntStream.range(-500000, 500000).toArray();
 
     @Benchmark
     public void calculateWithCycle() {
@@ -27,15 +24,14 @@ public class BenchmarkTest {
     }
 
     @Benchmark
-    public void calculateWithOneStream() {
-        task.calculateWithOneStream(args);
+    public void calculateWithOneStreamHardWay() {
+        task.calculateWithOneStreamHardWay(args);
     }
 
     @Benchmark
-    public void calculateWithTwoStream() {
-        task.calculateWithTwoStreams(args);
+    public void calculateWithOneStreamEasyWay() {
+        task.calculateWithOneStreamEasyWay(args);
     }
-
     @Test
     public void runBenchmarks() throws Exception {
         Options opts = new OptionsBuilder()

@@ -29,21 +29,20 @@ public class IntervaleTest {
     }
 
     @Test
-    public void testTwoStreams() {
-
-        final int[] result = task.calculateWithTwoStreams(args);
-        final int[] secondResult = task.calculateWithTwoStreams(secondArgs);
-
-        assertThat(result).isEqualTo(expectedResult);
-        assertThat(secondResult).isEqualTo(secondExpectedResult);
-    }
-
-    @Test
-    public void testOneStream() {
-        final Integer[] result = task.calculateWithOneStream(args);
-        final Integer[] secondResult = task.calculateWithOneStream(secondArgs);
+    public void testOneStreamHardWay() {
+        final Integer[] result = task.calculateWithOneStreamHardWay(args);
+        final Integer[] secondResult = task.calculateWithOneStreamHardWay(secondArgs);
 
         assertThat(result).isEqualTo(new Integer[]{10, -65});
         assertThat(secondResult).isEqualTo(new Integer[]{8, -50});
+    }
+
+    @Test
+    public void testOneStreamEasyWay() {
+        final int[] result = task.calculateWithOneStreamEasyWay(args);
+        final int[] secondResult = task.calculateWithOneStreamEasyWay(secondArgs);
+
+        assertThat(result).isEqualTo(expectedResult);
+        assertThat(secondResult).isEqualTo(secondExpectedResult);
     }
 }

@@ -29,19 +29,7 @@ public class IntervaleTask {
         return new int[]{positiveCount, negativeSum};
     }
 
-    public int[] calculateWithTwoStreams(int[] args) {
-
-        if (args == null || args.length == 0) {
-            return new int[]{};
-        }
-
-        final int positiveCount = Math.toIntExact(Arrays.stream(args).filter(value -> value > 0).count());
-        final int negativeSum = Arrays.stream(args).filter(value -> value < 0).sum();
-
-        return new int[]{positiveCount, negativeSum};
-    }
-
-    public Integer[] calculateWithOneStream(int[] args) {
+    public Integer[] calculateWithOneStreamHardWay(int[] args) {
 
         if (args == null || args.length == 0) {
             return new Integer[]{};
@@ -51,7 +39,7 @@ public class IntervaleTask {
         arrayListForSupplier.add(0);
         arrayListForSupplier.add(0);
 
-        final List<Integer> resultList = Arrays.stream(args).filter(value -> value != 0)
+        final List<Integer> resultList = Arrays.stream(args)
                 .collect(() -> arrayListForSupplier,
                         (list, value) -> {
                             if (value > 0) {
@@ -70,5 +58,27 @@ public class IntervaleTask {
 
         Integer[] resultArray = new Integer[resultList.size()];
         return resultList.toArray(resultArray);
+    }
+
+    public int[] calculateWithOneStreamEasyWay(int[] args) {
+
+        if (args == null || args.length == 0) {
+            return new int[]{};
+        }
+
+        int[] result = new int[2];
+
+        final int sum = Arrays.stream(args).map(
+                value -> {
+                    if (value > 0) {
+                        result[0] = result[0] + 1;
+                        return 0;
+                    } else {
+                        return value;
+                    }
+                }
+        ).sum();
+        result[1] = sum;
+        return result;
     }
 }
